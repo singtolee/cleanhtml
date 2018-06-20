@@ -1,13 +1,25 @@
 var jsonfile = require('jsonfile');
-var file = './ten17.json';
-var outFile = './output.json';
-jsonfile.readFile(file,function(err,obj){
+var args = require('commander');
+
+args
+.version('0.0.1')
+.option('-i, --inputFilePath <path>', 'Input file path')
+.option('-o, --outputFilePath <path>', 'Output file path')
+.parse(process.argv);
+
+const inFile = args.inputFilePath;
+const ofile = args.outputFilePath;
+
+//console.log(inFile);
+//console.log(ofile);
+
+jsonfile.readFile(inFile,function(err,obj){
     var i;
     for(i=0;i<obj.length;i++){
         obj[i].detail = strtoarray(obj[i].detail)
     }
 
-    jsonfile.writeFile(outFile,obj,function(err){
+    jsonfile.writeFile(ofile,obj,{spaces: 2, EOL: '\r\n'}, function(err){
         console.error(err)
     })
 
